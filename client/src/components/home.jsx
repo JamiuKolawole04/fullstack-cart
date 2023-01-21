@@ -1,9 +1,20 @@
 import { Fragment } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { useGetAllProductsQuery } from "../redux/features/productApi";
+import { addToCart } from "../redux/features/cartSlice";
 
 export const Home = () => {
   const { data, error, isLoading } = useGetAllProductsQuery();
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+    navigate("/cart");
+  };
 
   console.log({ data, error, isLoading });
   return (
@@ -29,7 +40,9 @@ export const Home = () => {
                   <span className="price">${product.price}</span>
                 </div>
 
-                <button>Add To Cart</button>
+                <button onClick={() => handleAddToCart(product)}>
+                  Add To Cart
+                </button>
               </div>
             ))}
           </div>
