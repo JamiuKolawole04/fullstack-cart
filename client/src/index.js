@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 
 import "./styles/index.css";
 import App from "./App";
-import productReducer from "./redux/features/productSlice";
+import productReducer, { productsFecth } from "./redux/features/productSlice";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const store = configureStore({
@@ -13,6 +13,8 @@ const store = configureStore({
     products: productReducer,
   },
 });
+
+store.dispatch(productsFecth());
 
 root.render(
   <React.StrictMode>

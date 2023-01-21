@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/products", (req, res) => {
+app.get("/api/products", (req, res) => {
   res.status(200).json({
     success: true,
     products,
