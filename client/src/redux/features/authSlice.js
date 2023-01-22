@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import jwtDecode from "jwt-decode";
 
-import { registerUserApi } from "../../api";
+import { registerUserApi, loginUserApi } from "../../api";
 
 const initialState = {
   // defaults to null when token is not present
@@ -21,6 +21,20 @@ export const registerUser = createAsyncThunk(
   async (values, { rejectWithValue }) => {
     try {
       const data = await registerUserApi(values);
+      localStorage.setItem("token", data.access_token);
+
+      return data;
+    } catch (err) {
+      return rejectWithValue(err?.response?.data);
+    }
+  }
+);
+
+export const loginUser = createAsyncThunk(
+  "auth/loginUser",
+  async (values, { rejectWithValue }) => {
+    try {
+      const data = await loginUserApi(values);
       localStorage.setItem("token", data.access_token);
 
       return data;
@@ -93,6 +107,34 @@ const authSlice = createSlice({
         ...state,
         registerStatus: "rejected",
         registerError: action.payload.message,
+      };
+    });
+
+    builder.addCase(loginUser.pending, (state, action) => {
+      return { ...state, loginStatus: "pending" };
+    });
+    builder.addCase(loginUser.fulfilled, (state, action) => {
+      if (action.payload) {
+        const user = jwtDecode(action.payload.access_token);
+        return {
+          ...state,
+          token: action.payload.access_token,
+          name: user.name,
+          email: user.email,
+          _id: user._id,
+          loginStatus: "success",
+        };
+      } else {
+        return state;
+      }
+    });
+
+    builder.addCase(loginUser.rejected, (state, action) => {
+      console.log(action);
+      return {
+        ...state,
+        loginStatus: "rejected",
+        loginError: action.payload.message,
       };
     });
   },

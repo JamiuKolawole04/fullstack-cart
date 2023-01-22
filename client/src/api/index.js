@@ -18,3 +18,13 @@ export const registerUserApi = async (post) => {
 
   return data;
 };
+
+export const loginUserApi = async (post) => {
+  const { data } = await axios({
+    method: "POST",
+    url: `/auth/login`,
+    data: post,
+  });
+
+  return data;
+};
