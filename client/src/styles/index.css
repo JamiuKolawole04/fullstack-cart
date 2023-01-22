@@ -272,6 +272,11 @@ section.cart-container {
   max-width: 100%;
 }
 
+.cart-checkout .cart-login {
+  background-color: yellow;
+  color: black;
+}
+
 .cart-checkout .subtotal {
   display: flex;
   justify-content: space-between;

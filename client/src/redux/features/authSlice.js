@@ -4,6 +4,7 @@ import jwtDecode from "jwt-decode";
 import { registerUserApi } from "../../api";
 
 const initialState = {
+  // defaults to null when token is not present
   token: localStorage.getItem("token"),
   name: null,
   email: null,
@@ -32,7 +33,39 @@ export const registerUser = createAsyncThunk(
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    loadUser(state, action) {
+      const token = state.token;
+
+      if (token) {
+        const user = jwtDecode(token);
+        return {
+          ...state,
+          token,
+          name: user.name,
+          email: user.email,
+          _id: user._id,
+          userLoaded: true,
+        };
+      }
+    },
+
+    logOutUser(state, action) {
+      localStorage.removeItem("token");
+      return {
+        ...state,
+        token: localStorage.getItem("token"),
+        name: null,
+        email: null,
+        _id: null,
+        registerStatus: "",
+        registerError: "",
+        loginStatus: "",
+        loginError: "",
+        userLoaded: false,
+      };
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(registerUser.pending, (state, action) => {
       return { ...state, registerStatus: "pending" };
@@ -64,5 +97,7 @@ const authSlice = createSlice({
     });
   },
 });
+
+export const { loadUser, logOutUser } = authSlice.actions;
 
 export default authSlice.reducer;

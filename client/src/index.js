@@ -8,7 +8,7 @@ import App from "./App";
 import productReducer, { productsFecth } from "./redux/features/productSlice";
 import { productsApi } from "./redux/features/productApi";
 import cartReducer, { getTotals } from "./redux/features/cartSlice";
-import authReducer from "./redux/features/authSlice";
+import authReducer, { loadUser } from "./redux/features/authSlice";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const store = configureStore({
@@ -23,9 +23,10 @@ const store = configureStore({
   },
 });
 
-// dispatch data
+// dispatch data on loading app
 store.dispatch(productsFecth());
 store.dispatch(getTotals());
+store.dispatch(loadUser(null));
 
 root.render(
   <React.StrictMode>

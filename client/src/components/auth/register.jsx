@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { registerUser } from "../../redux/features/authSlice";
+import { StyledForm } from "./styledForm";
 
 export const Register = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
-  console.log(auth);
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -19,8 +21,13 @@ export const Register = () => {
     dispatch(registerUser(user));
   };
 
+  useEffect(() => {
+    if (auth._id) {
+      navigate("/cart");
+    }
+  }, [auth._id, navigate]);
   return (
-    <form onSubmit={handleSubmit}>
+    <StyledForm onSubmit={handleSubmit}>
       <h2>Register</h2>
       <input
         type="text"
@@ -43,7 +50,11 @@ export const Register = () => {
         placeholder="password"
         onChange={({ target }) => setUser({ ...user, password: target.value })}
       />
-      <button>Register</button>
-    </form>
+      <button>
+        {auth.registerStatus === "pending" ? <p>Submitting...</p> : "Register"}
+      </button>
+
+      {auth.registerStatus === "rejected" ? <p>{auth.registerError}</p> : null}
+    </StyledForm>
   );
 };
