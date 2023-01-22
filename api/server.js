@@ -6,6 +6,7 @@ const app = express();
 const { connect, set } = require("mongoose");
 
 const products = require("./data");
+const authRoute = require("./routes/auth.route");
 
 set("strictQuery", false);
 connect(process.env.DB_URI)
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
+app.use("/api/auth", authRoute);
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
