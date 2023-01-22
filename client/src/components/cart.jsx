@@ -1,15 +1,22 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+
+import { removeFromCart } from "../redux/features/cartSlice";
 
 export const Cart = () => {
   const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
+  const handleRemoveFromCart = (cartItem) => {
+    dispatch(removeFromCart(cartItem));
+  };
 
   console.log(cart);
   return (
     <section className="cart-container">
       <h2>Shopping Cart</h2>
       {cart.cartItems.length === 0 ? (
-        <div className="cart-empty">
+        <div className="cart-empty d-flex column align-item-center">
           <p>Your cart is currently empty</p>
           <div className="start-shopping">
             <Link to="/">
@@ -47,7 +54,9 @@ export const Cart = () => {
                     <h3>{cartItem.name}</h3>
                     <p>{cartItem.desc}</p>
 
-                    <button>Remove</button>
+                    <button onClick={() => handleRemoveFromCart(cartItem)}>
+                      Remove
+                    </button>
                   </div>
                 </div>
 
@@ -63,12 +72,12 @@ export const Cart = () => {
               </div>
             ))}
           </div>
-          <div className="cart-summary">
+          <div className="cart-summary d-flex justify-content-between">
             <button className="clear-cart">Clear Cart</button>
             <div className="cart-checkout">
               <div className="subtotal">
                 <span>Subtotal</span>
-                <span className="amount">{cart.cartTotalAmount}</span>
+                <span className="amount">${cart.cartTotalAmount}</span>
               </div>
               <p>Taxes and shipping calculated at checkout</p>
               <button>Check out</button>
