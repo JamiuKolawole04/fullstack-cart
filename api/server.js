@@ -3,8 +3,14 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const { connect, set } = require("mongoose");
 
 const products = require("./data");
+
+set("strictQuery", false);
+connect(process.env.DB_URI)
+  .then(() => console.log("db connected"))
+  .catch((err) => console.log({ message: "connected failed", err }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

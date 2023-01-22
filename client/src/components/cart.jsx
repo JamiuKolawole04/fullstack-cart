@@ -1,7 +1,14 @@
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { removeFromCart } from "../redux/features/cartSlice";
+import {
+  removeFromCart,
+  decreaseCart,
+  addToCart,
+  clearCart,
+  getTotals,
+} from "../redux/features/cartSlice";
 
 export const Cart = () => {
   const cart = useSelector((state) => state.cart);
@@ -12,6 +19,23 @@ export const Cart = () => {
   };
 
   console.log(cart);
+
+  const handleDecreaseCart = (cartItem) => {
+    dispatch(decreaseCart(cartItem));
+  };
+
+  const handleIncreaseCart = (cartItem) => {
+    dispatch(addToCart(cartItem));
+  };
+
+  const handleClearCart = (cartItem) => {
+    dispatch(clearCart());
+  };
+
+  useEffect(() => {
+    dispatch(getTotals());
+  }, [cart, dispatch]);
+
   return (
     <section className="cart-container">
       <h2>Shopping Cart</h2>
@@ -62,9 +86,13 @@ export const Cart = () => {
 
                 <div className="cart-product-price">${cartItem.price}</div>
                 <div className="cart-product-quantity">
-                  <button>-</button>
+                  <button onClick={() => handleDecreaseCart(cartItem)}>
+                    -
+                  </button>
                   <div className="count">{cartItem.cartQuantity}</div>
-                  <button>+</button>
+                  <button onClick={() => handleIncreaseCart(cartItem)}>
+                    +
+                  </button>
                 </div>
                 <div className="cart-product-total-price">
                   ${cartItem.price * cartItem.cartQuantity}
@@ -73,7 +101,9 @@ export const Cart = () => {
             ))}
           </div>
           <div className="cart-summary d-flex justify-content-between">
-            <button className="clear-cart">Clear Cart</button>
+            <button className="clear-cart" onClick={() => handleClearCart()}>
+              Clear Cart
+            </button>
             <div className="cart-checkout">
               <div className="subtotal">
                 <span>Subtotal</span>

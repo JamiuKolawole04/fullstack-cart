@@ -7,7 +7,7 @@ import "./styles/index.css";
 import App from "./App";
 import productReducer, { productsFecth } from "./redux/features/productSlice";
 import { productsApi } from "./redux/features/productApi";
-import cartReducer from "./redux/features/cartSlice";
+import cartReducer, { getTotals } from "./redux/features/cartSlice";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const store = configureStore({
@@ -21,7 +21,9 @@ const store = configureStore({
   },
 });
 
+// dispatch data
 store.dispatch(productsFecth());
+store.dispatch(getTotals());
 
 root.render(
   <React.StrictMode>

@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const Nabvar = () => {
+  const { cartTotalQuantity } = useSelector((state) => state.cart);
   return (
     <nav className="nav-bar d-flex justify-content-between align-item-center">
       <Link to="">
@@ -21,7 +23,7 @@ export const Nabvar = () => {
           </svg>
 
           <span className="bag-quantity d-flex align-item-center justify-content-center">
-            <span>3</span>
+            <span>{cartTotalQuantity}</span>
           </span>
         </div>
       </Link>
