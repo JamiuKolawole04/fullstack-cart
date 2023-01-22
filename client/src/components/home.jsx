@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { useGetAllProductsQuery } from "../redux/features/productApi";
@@ -7,6 +7,8 @@ import { addToCart } from "../redux/features/cartSlice";
 
 export const Home = () => {
   const { data, error, isLoading } = useGetAllProductsQuery();
+  const auth = useSelector((state) => state.auth);
+  console.log(auth);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

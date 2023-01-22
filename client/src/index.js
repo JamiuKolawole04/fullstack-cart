@@ -8,12 +8,14 @@ import App from "./App";
 import productReducer, { productsFecth } from "./redux/features/productSlice";
 import { productsApi } from "./redux/features/productApi";
 import cartReducer, { getTotals } from "./redux/features/cartSlice";
+import authReducer from "./redux/features/authSlice";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const store = configureStore({
   reducer: {
     products: productReducer,
     cart: cartReducer,
+    auth: authReducer,
     [productsApi.reducerPath]: productsApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
