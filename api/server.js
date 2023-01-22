@@ -7,6 +7,7 @@ const { connect, set } = require("mongoose");
 
 const products = require("./data");
 const authRoute = require("./routes/auth.route");
+const stripe = require("stripe")(process.env.STRIPE_KEY);
 
 set("strictQuery", false);
 connect(process.env.DB_URI)
@@ -16,6 +17,32 @@ connect(process.env.DB_URI)
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
+
+app.post("/api/create-checkout-session", async (req, res) => {
+  const session = await stripe.checkout.sessions.create({
+    line_items: [
+      {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: "T-shirt",
+          },
+          unit_amount: 2000,
+        },
+        quantity: 1,
+      },
+    ],
+    mode: "payment",
+    success_url: `${process.env.CLIENT_URL}/checkout-success`,
+    cancel_url: `${process.env.CLIENT_URL}/cart`,
+  });
+
+  // res.redirect(303, session.url);
+  res.status(201).json({
+    success: true,
+    url: session.url,
+  });
+});
 
 app.use("/api/auth", authRoute);
 app.get("/", (req, res) => {

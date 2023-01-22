@@ -9,6 +9,7 @@ import {
   clearCart,
   getTotals,
 } from "../redux/features/cartSlice";
+import { PaymentButton } from "./paymentButton";
 
 export const Cart = () => {
   const cart = useSelector((state) => state.cart);
@@ -111,7 +112,7 @@ export const Cart = () => {
               </div>
               <p>Taxes and shipping calculated at checkout</p>
               {auth._id ? (
-                <button>Check out</button>
+                <PaymentButton cartItems={cart.cartItems} />
               ) : (
                 <button
                   className="cart-login"
