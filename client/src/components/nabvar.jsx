@@ -35,16 +35,21 @@ export const Nabvar = () => {
         </div>
       </Link>
       {auth._id ? (
-        <Logout
-          onClick={() => {
-            dispatch(logOutUser(null));
-            toast.warn("Logged out", {
-              position: "bottom-left",
-            });
-          }}
-        >
-          Logout
-        </Logout>
+        <Links>
+          <div>
+            <Link to="/admin">Admin</Link>
+          </div>
+          <div
+            onClick={() => {
+              dispatch(logOutUser(null));
+              toast.warn("Logged out", {
+                position: "bottom-left",
+              });
+            }}
+          >
+            Logout
+          </div>
+        </Links>
       ) : (
         <AuthLinks>
           <Link to="/login">Login</Link>
@@ -55,13 +60,26 @@ export const Nabvar = () => {
   );
 };
 
-const Logout = styled.div`
+export const Logout = styled.div`
   color: white;
   cursor: pointer;
 `;
 
 const AuthLinks = styled.div`
   a {
+    &:last-child {
+      margin-left: 2rem;
+    }
+  }
+`;
+
+const Links = styled.div`
+  color: white;
+  display: flex;
+
+  div {
+    cursor: pointer;
+
     &:last-child {
       margin-left: 2rem;
     }

@@ -9,3 +9,4 @@ export { CheckoutSuccess } from "./checkoutSuccess";
 export { Dashboard } from "./admin/dashboard";
 export { Products } from "./admin/products";
 export { Summary } from "./admin/summary";
+export { Index } from "./indexRoute";
