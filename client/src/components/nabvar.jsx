@@ -52,7 +52,8 @@ export const Nabvar = () => {
         </Links>
       ) : (
         <AuthLinks>
-          <Link to="/login">Login</Link>
+          <Link to="../login">Login</Link>
+          <a href="/login">Login 2</a>
           <Link to="/register">Register</Link>
         </AuthLinks>
       )}

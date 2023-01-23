@@ -56,12 +56,12 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <Index />,
       },
     ],
   },
   {
-    path: "admin",
+    path: "/admin",
     element: <Dashboard />,
     children: [
       {
@@ -75,11 +75,11 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "cart",
+    path: "/cart",
     element: <Cart />,
   },
   {
-    path: "register",
+    path: "/register",
     element: <Register />,
   },
   {
@@ -87,7 +87,7 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: "checkout-success",
+    path: "/checkout-success",
     element: <CheckoutSuccess />,
   },
   {
