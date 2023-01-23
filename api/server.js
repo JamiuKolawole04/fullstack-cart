@@ -4,10 +4,11 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const { connect, set } = require("mongoose");
+const stripe = require("stripe")(process.env.STRIPE_KEY);
 
 const products = require("./data");
 const authRoute = require("./routes/auth.route");
-const stripe = require("stripe")(process.env.STRIPE_KEY);
+const { Order } = require("./models/order.model");
 
 set("strictQuery", false);
 connect(process.env.DB_URI)
@@ -22,6 +23,31 @@ app.use(
   })
 );
 
+//  create order
+const createOrder = async (customer, data) => {
+  const Items = JSON.parse(customer.metadata.cart);
+
+  const newOrder = new Order({
+    userId: customer.metadata.userId,
+    customerId: data.customer,
+    paymentIntentId: data.payment_intent,
+    products: Items,
+    subtotal: data.amount_subtotal,
+    total: data.amount_total,
+    shippingCustomerDetails: data.customer_details,
+    shipping: data.shipping,
+    payment_status: data.payment_status,
+  });
+
+  try {
+    const savedOrder = await newOrder.save();
+    console.log("processed order", savedOrder);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// create checkout endpoint with stripe
 app.post("/api/create-checkout-session", async (req, res) => {
   const customer = await stripe.customers.create({
     metadata: {
@@ -116,6 +142,10 @@ app.post("/api/create-checkout-session", async (req, res) => {
   });
 });
 
+/**
+ * CREATEING STRIPE WEBHHOK
+ */
+
 // stripe webhook
 // server.js
 //
@@ -181,7 +211,8 @@ app.post(
       stripe.customers
         .retrieve(data.customer)
         .then((customer) => {
-          console.log(customer);
+          createOrder(customer, data);
+          console.log("customer", customer);
           console.log("data", data);
         })
         .catch((err) => console.log(err.message));
