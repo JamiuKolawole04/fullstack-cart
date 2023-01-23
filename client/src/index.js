@@ -23,6 +23,7 @@ import {
   Register,
   Summary,
   Index,
+  CreateProducts,
 } from "./components";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -62,6 +63,12 @@ const router = createBrowserRouter([
       {
         path: "products",
         element: <Products />,
+        children: [
+          {
+            path: "create-products",
+            element: <CreateProducts />,
+          },
+        ],
       },
       {
         path: "summary",
