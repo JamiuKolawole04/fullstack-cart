@@ -329,3 +329,12 @@ section.cart-container {
   margin-top: 2rem;
   color: rgb(84, 84, 84);
 }
+
+/* Admin */
+.link-active {
+  color: #4b70e2;
+}
+
+.link-inactive {
+  color: rgb(97, 97, 97);
+}

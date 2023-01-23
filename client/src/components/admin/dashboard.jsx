@@ -11,8 +11,22 @@ export const Dashboard = () => {
       <StyledDashboard>
         <SideNav>
           <h3>Quick Link</h3>
-          <NavLink to="summary">Summary</NavLink>
-          <NavLink to="products">Products</NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "link-active" : "link-inactive"
+            }
+            to="summary"
+          >
+            Summary
+          </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "link-active" : "link-inactive"
+            }
+            to="products"
+          >
+            Products
+          </NavLink>
         </SideNav>
         <Content>
           <Outlet />
