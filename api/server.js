@@ -23,6 +23,12 @@ app.use(
 );
 
 app.post("/api/create-checkout-session", async (req, res) => {
+  const customer = await stripe.customers.create({
+    metadata: {
+      userId: req.body.userId,
+      cart: JSON.stringify(req.body.cartItems),
+    },
+  });
   const line_items = req.body.cartItems.map((item) => {
     return {
       price_data: {
@@ -64,6 +70,7 @@ app.post("/api/create-checkout-session", async (req, res) => {
     //     quantity: 1,
     //   },
     // ],
+    customer: customer.id,
     line_items,
     payment_method_types: ["card"],
     shipping_address_collection: { allowed_countries: ["US", "CA", "NG"] },
@@ -108,6 +115,84 @@ app.post("/api/create-checkout-session", async (req, res) => {
     url: session.url,
   });
 });
+
+// stripe webhook
+// server.js
+//
+// Use this sample code to handle webhook events in your integration.
+//
+// 1) Paste this code into a new file (server.js)
+//
+// 2) Install dependencies
+//   npm install stripe
+//   npm install express
+//
+// 3) Run the server on http://localhost:4242
+//   node server.js
+
+const stripe2 = require("stripe");
+
+// This is your Stripe CLI webhook secret for testing your endpoint locally.
+let endpointSecret;
+
+// endpointSecret =
+//   "whsec_48aee6c5d987c8c10162f5854f0b1cecf04cc2276f5e48728ea0d0c4d3bb8dbb";
+
+app.post(
+  "/api/webhook",
+  express.raw({ type: "application/json" }),
+  (req, res) => {
+    const sig = req.headers["stripe-signature"];
+
+    let data;
+    let eventType;
+
+    if (endpointSecret) {
+      let event;
+
+      try {
+        event = stripe2.webhooks.constructEvent(req.body, sig, endpointSecret);
+
+        console.log("webhooks verified");
+      } catch (err) {
+        console.log(`webhook error: ${err.message}`);
+        response.status(400).send(`Webhook Error: ${err.message}`);
+        return;
+      }
+      data = event.data.object;
+      eventType = event.type;
+    } else {
+      data = req.body.data.object;
+      eventType = req.body.type;
+    }
+
+    // Handle the event
+    // switch (event.type) {
+    //   case "payment_intent.succeeded":
+    //     const paymentIntent = event.data.object;
+    //     // Then define and call a function to handle the event payment_intent.succeeded
+    //     break;
+    //   // ... handle other event types
+    //   default:
+    //     console.log(`Unhandled event type ${event.type}`);
+    // }
+
+    if (eventType === "checkout.session.completed") {
+      stripe.customers
+        .retrieve(data.customer)
+        .then((customer) => {
+          console.log(customer);
+          console.log("data", data);
+        })
+        .catch((err) => console.log(err.message));
+    }
+
+    // Return a 200 response to acknowledge receipt of the event
+    res.send().end();
+  }
+);
+
+app.listen(4242, () => console.log("Running on port 4242"));
 
 app.use("/api/auth", authRoute);
 app.get("/", (req, res) => {
