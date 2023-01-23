@@ -9,6 +9,9 @@ import {
   NotFound,
   Login,
   CheckoutSuccess,
+  Dashboard,
+  Products,
+  Summary,
 } from "./components";
 import { Register } from "./components";
 
@@ -24,6 +27,11 @@ const App = () => {
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
           <Route path="checkout-success" element={<CheckoutSuccess />} />
+          <Route path="admin">
+            <Route index={true} element={<Dashboard />} />
+            <Route path="products" element={<Products />} />
+            <Route path="summary" element={<Summary />} />
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

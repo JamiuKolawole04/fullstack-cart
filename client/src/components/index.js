@@ -6,3 +6,6 @@ export { Register } from "./auth/register";
 export { Login } from "./auth/login";
 export { PaymentButton } from "./paymentButton";
 export { CheckoutSuccess } from "./checkoutSuccess";
+export { Dashboard } from "./admin/dashboard";
+export { Products } from "./admin/products";
+export { Summary } from "./admin/summary";
