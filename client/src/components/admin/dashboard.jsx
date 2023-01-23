@@ -1,17 +1,24 @@
+import { Fragment } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import styled from "styled-components";
 
+import { Nabvar } from "../nabvar";
+
 export const Dashboard = () => {
   return (
-    <StyledDashboard>
-      <SideNav>
-        <h3>Quick Link</h3>
-        <NavLink to="summary">Summary</NavLink>
-      </SideNav>
-      <Content>
-        <Outlet />
-      </Content>
-    </StyledDashboard>
+    <Fragment>
+      <Nabvar />
+      <StyledDashboard>
+        <SideNav>
+          <h3>Quick Link</h3>
+          <NavLink to="summary">Summary</NavLink>
+          <NavLink to="products">Products</NavLink>
+        </SideNav>
+        <Content>
+          <Outlet />
+        </Content>
+      </StyledDashboard>
+    </Fragment>
   );
 };
 

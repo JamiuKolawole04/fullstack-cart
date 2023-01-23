@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { loginUser } from "../../redux/features/authSlice";
+import { Nabvar } from "../nabvar";
 import { StyledForm } from "./styledForm";
 
 export const Login = () => {
@@ -26,28 +27,33 @@ export const Login = () => {
     }
   }, [auth._id, navigate]);
   return (
-    <StyledForm onSubmit={handleSubmit}>
-      <h2>Login</h2>
+    <Fragment>
+      <Nabvar />
+      <StyledForm onSubmit={handleSubmit}>
+        <h2>Login</h2>
 
-      <input
-        type="email"
-        name="email"
-        id="email"
-        placeholder="email"
-        onChange={({ target }) => setUser({ ...user, email: target.value })}
-      />
-      <input
-        type="password"
-        name="password"
-        id="password"
-        placeholder="password"
-        onChange={({ target }) => setUser({ ...user, password: target.value })}
-      />
-      <button>
-        {auth.loginStatus === "pending" ? <p>Submitting...</p> : "Login"}
-      </button>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          placeholder="email"
+          onChange={({ target }) => setUser({ ...user, email: target.value })}
+        />
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="password"
+          onChange={({ target }) =>
+            setUser({ ...user, password: target.value })
+          }
+        />
+        <button>
+          {auth.loginStatus === "pending" ? <p>Submitting...</p> : "Login"}
+        </button>
 
-      {auth.loginStatus === "rejected" ? <p>{auth.loginError}</p> : null}
-    </StyledForm>
+        {auth.loginStatus === "rejected" ? <p>{auth.loginError}</p> : null}
+      </StyledForm>
+    </Fragment>
   );
 };

@@ -2,16 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  BrowserRouter,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import "./styles/index.css";
-import App from "./App";
+// import App from "./App";
 import productReducer, { productsFecth } from "./redux/features/productSlice";
 import { productsApi } from "./redux/features/productApi";
 import cartReducer, { getTotals } from "./redux/features/cartSlice";
@@ -26,7 +22,6 @@ import {
   Products,
   Register,
   Summary,
-  Nabvar,
   Index,
 } from "./components";
 
@@ -90,19 +85,13 @@ const router = createBrowserRouter([
     path: "/checkout-success",
     element: <CheckoutSuccess />,
   },
-  {
-    path: "/checkout-success",
-    element: <CheckoutSuccess />,
-  },
 ]);
 
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <ToastContainer />
-      <BrowserRouter>
-        <Nabvar />
-      </BrowserRouter>
+
       <RouterProvider router={router} />
       {/* <App /> */}
     </Provider>

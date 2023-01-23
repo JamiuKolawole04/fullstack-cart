@@ -12,7 +12,7 @@ export const Nabvar = () => {
 
   return (
     <nav className="nav-bar d-flex justify-content-between align-item-center">
-      <Link to="">
+      <Link to="/">
         <h2>Online Shop</h2>
       </Link>
 
@@ -37,7 +37,7 @@ export const Nabvar = () => {
       {auth._id ? (
         <Links>
           <div>
-            <Link to="/admin">Admin</Link>
+            <Link to="/admin/summary">Admin</Link>
           </div>
           <div
             onClick={() => {
@@ -52,8 +52,7 @@ export const Nabvar = () => {
         </Links>
       ) : (
         <AuthLinks>
-          <Link to="../login">Login</Link>
-          <a href="/login">Login 2</a>
+          <Link to="/login">Login</Link>
           <Link to="/register">Register</Link>
         </AuthLinks>
       )}
