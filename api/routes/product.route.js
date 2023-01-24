@@ -42,7 +42,7 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find().sort({ createdAt: -1 });
     res.status(200).json({
       success: true,
       products,

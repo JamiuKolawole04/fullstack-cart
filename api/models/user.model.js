@@ -21,6 +21,10 @@ const userSchema = Schema(
       minLength: 3,
       maxLength: 1024,
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

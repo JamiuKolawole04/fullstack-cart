@@ -11,6 +11,7 @@ router.post("/register", async (req, res) => {
     name: Joi.string().min(3).max(30).required(),
     email: Joi.string().min(3).max(120).required().email(),
     password: Joi.string().min(3).max(1024).required(),
+    isAdmin: Joi.boolean(),
   });
 
   const { error } = schema.validate(req.body);
