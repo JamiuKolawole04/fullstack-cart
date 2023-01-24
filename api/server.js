@@ -8,6 +8,7 @@ const stripe = require("stripe")(process.env.STRIPE_KEY);
 
 const products = require("./data");
 const authRoute = require("./routes/auth.route");
+const productsRoute = require("./routes/product.route");
 const { Order } = require("./models/order.model");
 
 set("strictQuery", false);
@@ -226,6 +227,7 @@ app.post(
 // app.listen(4242, () => console.log("Running on port 4242"));
 
 app.use("/api/auth", authRoute);
+app.use("api/products", productsRoute);
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,

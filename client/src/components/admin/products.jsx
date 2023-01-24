@@ -1,14 +1,20 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { Fragment } from "react";
 
+import { AdminHeaders, PrimaryButton } from "./commonStyled";
+
 export const Products = () => {
   const navigate = useNavigate();
   return (
     <Fragment>
-      Products
-      <button onClick={() => navigate("/admin/products/create-products")}>
-        Create
-      </button>
+      <AdminHeaders>
+        Products
+        <PrimaryButton
+          onClick={() => navigate("/admin/products/create-products")}
+        >
+          Create
+        </PrimaryButton>
+      </AdminHeaders>
       <Outlet />
     </Fragment>
   );
