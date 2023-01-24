@@ -1,10 +1,14 @@
 import { Fragment } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 import { Nabvar } from "../nabvar";
 
 export const Dashboard = () => {
+  const auth = useSelector((state) => state.auth);
+
+  if (!auth.isAdmin) return <p>Access Denied.</p>;
   return (
     <Fragment>
       <Nabvar />

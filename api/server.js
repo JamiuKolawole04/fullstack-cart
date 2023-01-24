@@ -237,12 +237,12 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/api/products", (req, res) => {
-  res.status(200).json({
-    success: true,
-    products,
-  });
-});
+// app.get("/api/products", (req, res) => {
+//   res.status(200).json({
+//     success: true,
+//     products,
+//   });
+// });
 
 app.listen(process.env.PORT, () => {
   console.log(`server started on port ${process.env.PORT}`);

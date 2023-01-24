@@ -27,10 +27,13 @@ export const productsCreate = createAsyncThunk(
   async (values, { rejectWithValue }) => {
     try {
       const products = await createProductApi(values);
+      toast.success("product created successfully", {
+        position: "top-right",
+      });
       return products;
     } catch (err) {
       toast.error(err.response?.data?.message, {
-        position: "bottom-left",
+        position: "top-right",
       });
       return rejectWithValue("an error occured");
     }

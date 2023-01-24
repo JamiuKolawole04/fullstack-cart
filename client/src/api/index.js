@@ -14,6 +14,9 @@ export const createProductApi = async (post) => {
     method: "POST",
     url: `products`,
     data: post,
+    headers: {
+      "x-auth-token": localStorage.getItem("token"),
+    },
   });
 
   return data;

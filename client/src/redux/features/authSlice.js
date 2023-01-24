@@ -9,6 +9,7 @@ const initialState = {
   name: null,
   email: null,
   _id: null,
+  isAdmin: false,
   registerStatus: "",
   registerError: "",
   loginStatus: "",
@@ -59,6 +60,7 @@ const authSlice = createSlice({
           name: user.name,
           email: user.email,
           _id: user._id,
+          isAdmin: user.isAdmin,
           userLoaded: true,
         };
       }
@@ -72,6 +74,7 @@ const authSlice = createSlice({
         name: null,
         email: null,
         _id: null,
+        isAdmin: false,
         registerStatus: "",
         registerError: "",
         loginStatus: "",
@@ -94,6 +97,7 @@ const authSlice = createSlice({
           name: user.name,
           email: user.email,
           _id: user._id,
+          isAdmin: user.isAdmin,
           registerStatus: "success",
         };
       } else {
@@ -122,6 +126,7 @@ const authSlice = createSlice({
           name: user.name,
           email: user.email,
           _id: user._id,
+          isAdmin: user.isAdmin,
           loginStatus: "success",
         };
       } else {
