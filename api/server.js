@@ -214,6 +214,16 @@ app.post(
       stripe.customers
         .retrieve(data.customer)
         .then((customer) => {
+          stripe.checkout.sessions.listLineItems(
+            // "cs_test_a1sGpG3x8zvlairGWgsFyZ9x02bE0vDz381O7ej83zdjrfzKD88bimGd2p",
+            data.id,
+            {},
+            function (err, lineItems) {
+              // asynchronously called
+              console.log("line items", lineItems);
+              // createOrder(customer, data, lineItems);
+            }
+          );
           createOrder(customer, data);
           console.log("customer", customer);
           console.log("data", data);
