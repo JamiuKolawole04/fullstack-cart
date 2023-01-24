@@ -1,11 +1,15 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+
 import { PrimaryButton } from "./commonStyled";
+import { productsCreate } from "../../redux/features/productSlice";
 
 export const CreateProducts = () => {
+  const dispatch = useDispatch();
+
   const [productImg, setProductImg] = useState("");
   const [name, setName] = useState("");
-  // eslint-disable-next-line
   const [brand, setBrand] = useState("");
   const [price, Setprice] = useState("");
   const [desc, setDesc] = useState("");
@@ -29,9 +33,22 @@ export const CreateProducts = () => {
     }
   };
 
+  const hanldeSubmit = (e) => {
+    e.preventDefault();
+    dispatch(
+      productsCreate({
+        name,
+        brand,
+        price,
+        desc,
+        image: productImg,
+      })
+    );
+  };
+
   return (
     <StyledCreateProduct>
-      <StyledForm>
+      <StyledForm onSubmit={hanldeSubmit}>
         <h3>Create a Product</h3>
         <input
           type="file"

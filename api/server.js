@@ -16,8 +16,10 @@ connect(process.env.DB_URI)
   .then(() => console.log("db connected"))
   .catch((err) => console.log({ message: "connected failed", err }));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ limit: "200mb" }));
+app.use(
+  express.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 })
+);
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -227,7 +229,7 @@ app.post(
 // app.listen(4242, () => console.log("Running on port 4242"));
 
 app.use("/api/auth", authRoute);
-app.use("api/products", productsRoute);
+app.use("/api/products", productsRoute);
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,

@@ -32,7 +32,7 @@ export const Home = () => {
             <div className="products d-flex justify-content-between ">
               {data?.products?.map((product) => (
                 <div
-                  key={product.id}
+                  key={product._id}
                   className="product d-flex column justify-content-between"
                 >
                   <h3>{product.name}</h3>

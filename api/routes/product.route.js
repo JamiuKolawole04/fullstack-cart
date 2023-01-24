@@ -11,7 +11,7 @@ router.post("/", async (req, res) => {
   try {
     if (image) {
       const uploadResponse = await cloudinary.uploader.upload(image, {
-        upload_preset: "online-shop",
+        upload_preset: "onlineShop",
       });
 
       if (uploadResponse) {
@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
           name,
           brand,
           desc,
-          image: uploadResponse,
+          image: uploadResponse.url,
           price,
         });
 
