@@ -5,6 +5,7 @@ import { PrimaryButton } from "./commonStyled";
 export const CreateProducts = () => {
   const [productImg, setProductImg] = useState("");
   const [name, setName] = useState("");
+  // eslint-disable-next-line
   const [brand, setBrand] = useState("");
   const [price, Setprice] = useState("");
   const [desc, setDesc] = useState("");

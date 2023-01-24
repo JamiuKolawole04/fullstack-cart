@@ -9,6 +9,16 @@ export const getProductsApi = async () => {
   return data;
 };
 
+export const createProductApi = async (post) => {
+  const { data } = await axios({
+    method: "POST",
+    url: `products`,
+    data: post,
+  });
+
+  return data;
+};
+
 export const registerUserApi = async (post) => {
   const { data } = await axios({
     method: "POST",
