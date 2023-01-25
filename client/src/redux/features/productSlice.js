@@ -1,13 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
-import { getProductsApi, createProductApi } from "../../api";
+import { getProductsApi, createProductApi, deletProductApi } from "../../api";
 
 const initialState = {
   items: [],
   status: null,
   error: null,
   createStatus: null,
+  deleteStatus: null,
 };
 
 export const productsFecth = createAsyncThunk(
@@ -30,6 +31,24 @@ export const productsCreate = createAsyncThunk(
       toast.success("product created successfully", {
         position: "top-right",
       });
+      return products;
+    } catch (err) {
+      toast.error(err.response?.data?.message, {
+        position: "top-right",
+      });
+      return rejectWithValue("an error occured");
+    }
+  }
+);
+
+export const productsDelete = createAsyncThunk(
+  "products/productsDelete",
+  async (id, { rejectWithValue }) => {
+    try {
+      const products = await deletProductApi(id);
+      // toast.success("product created successfully", {
+      //   position: "top-right",
+      // });
       return products;
     } catch (err) {
       toast.error(err.response?.data?.message, {
@@ -71,6 +90,25 @@ const productSlice = createSlice({
     },
     [productsCreate.rejected]: (state, action) => {
       state.createStatus = "rejected";
+      state.error = action.payload;
+    },
+
+    // product delete
+    [productsDelete.pending]: (state, action) => {
+      state.deleteStatus = "pending";
+    },
+    [productsDelete.fulfilled]: (state, action) => {
+      const newList = state.items.filter(
+        (item) => item._id !== action.payload._id
+      );
+      state.items = newList;
+      state.deleteStatus = "success";
+      toast.error("product deleted", {
+        position: "top-right",
+      });
+    },
+    [productsDelete.rejected]: (state, action) => {
+      state.deleteStatus = "rejected";
       state.error = action.payload;
     },
   },
