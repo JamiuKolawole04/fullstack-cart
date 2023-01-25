@@ -11,3 +11,6 @@ export { Products } from "./admin/products";
 export { Summary } from "./admin/summary";
 export { Index } from "./indexRoute";
 export { CreateProducts } from "./admin/createProducts";
+export { ProductList } from "./admin/list/productList";
+export { Orders } from "./admin/orders";
+export { Users } from "./admin/users";

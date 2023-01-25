@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 
 export const AllTimeData = () => {
   const { items } = useSelector((state) => state.products);
-  console.log(items);
   return (
     <Main>
       <h3>All Time</h3>

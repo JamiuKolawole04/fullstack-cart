@@ -24,6 +24,9 @@ import {
   Summary,
   Index,
   CreateProducts,
+  ProductList,
+  Orders,
+  Users,
 } from "./components";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -65,6 +68,10 @@ const router = createBrowserRouter([
         element: <Products />,
         children: [
           {
+            index: true,
+            element: <ProductList />,
+          },
+          {
             path: "create-products",
             element: <CreateProducts />,
           },
@@ -73,6 +80,14 @@ const router = createBrowserRouter([
       {
         path: "summary",
         element: <Summary />,
+      },
+      {
+        path: "orders",
+        element: <Orders />,
+      },
+      {
+        path: "users",
+        element: <Users />,
       },
     ],
   },

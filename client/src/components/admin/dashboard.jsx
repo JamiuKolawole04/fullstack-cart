@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
+import { FaStore, FaClipboard, FaTachometerAlt, FaUsers } from "react-icons/fa";
 
 import { Nabvar } from "../nabvar";
 
@@ -21,7 +22,7 @@ export const Dashboard = () => {
             }
             to="summary"
           >
-            Summary
+            <FaTachometerAlt /> Summary
           </NavLink>
           <NavLink
             className={({ isActive }) =>
@@ -29,7 +30,25 @@ export const Dashboard = () => {
             }
             to="products"
           >
-            Products
+            <FaStore /> Products
+          </NavLink>
+
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "link-active" : "link-inactive"
+            }
+            to="orders"
+          >
+            <FaClipboard /> Orders
+          </NavLink>
+
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "link-active" : "link-inactive"
+            }
+            to="users"
+          >
+            <FaUsers /> Users
           </NavLink>
         </SideNav>
         <Content>
@@ -64,6 +83,14 @@ const SideNav = styled.div`
     text-decoration: none;
     margin-bottom: 1rem;
     font-size: 14px;
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+
+    svg {
+      margin-right: 0.5rem;
+      font-size: 18px;
+    }
   }
 `;
 

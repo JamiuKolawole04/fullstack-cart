@@ -12,8 +12,8 @@ import {
   Dashboard,
   Products,
   Summary,
+  Register,
 } from "./components";
-import { Register } from "./components";
 
 const App = () => {
   return (

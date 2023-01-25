@@ -55,6 +55,8 @@
 
 /*NAVBAR */
 nav {
+  position: sticky;
+  top: 0;
   height: 70px;
   background-color: black;
   padding: 0 4rem;
@@ -333,6 +335,9 @@ section.cart-container {
 /* Admin */
 .link-active {
   color: #4b70e2;
+  border-left: 3px solid #4b70e2;
+  padding-left: 4px;
+  border-radius: 2px;
 }
 
 .link-inactive {
