@@ -3,13 +3,15 @@ import styled from "styled-components";
 import { FaUsers, FaChartBar, FaClipboard } from "react-icons/fa";
 
 import { Widget } from "./summary-components/widget";
-import { getOrderStatsApi, getUserStatsApi } from "../../api";
+import { getOrderStatsApi, getUserStatsApi, getIcomeStatsApi } from "../../api";
 
 export const Summary = () => {
   const [users, setUsers] = useState([]);
   const [usersPerc, setUsersPerc] = useState([]);
   const [orders, setOrders] = useState([]);
   const [ordersPerc, setOrdersPerc] = useState([]);
+  const [income, setIncome] = useState([]);
+  const [incomePerc, setIncomePerc] = useState([]);
 
   const compare = (a, b) => {
     if (a._id < b._id) return 1;
@@ -59,6 +61,26 @@ export const Summary = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await getIcomeStatsApi();
+
+        response?.income.sort(compare);
+        setIncome(response?.income);
+        setIncomePerc(
+          (response.income[0].total -
+            response.income[0].total / response.income[0].total) *
+            100
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   const data = [
     {
       icon: <FaUsers />,
@@ -80,12 +102,12 @@ export const Summary = () => {
     },
     {
       icon: <FaChartBar />,
-      digits: 5000,
+      digits: income[0]?.total,
       isMoney: true,
       title: "Earnings",
       color: "rgb(253, 181, 40)",
       bgColor: "rgba(253, 181, 40, 0.12)",
-      percentage: -60,
+      percentage: incomePerc,
     },
   ];
 

@@ -82,4 +82,42 @@ router.get("/income/stats", isAdmin, async (req, res) => {
   }
 });
 
+// GET 1 WEEK SALES STATS
+router.get("/week-sales", isAdmin, async (req, res) => {
+  const last7Days = moment()
+    .day(moment().day() - 7)
+    .format("YYYY-MM-DD HH:mm:ss");
+
+  try {
+    const income = await Order.aggregate([
+      {
+        $match: { createdAt: { $gte: new Date(last7Days) } },
+      },
+      {
+        $project: {
+          day: { $dayOfWeek: "$createdAt" },
+          sales: "$total",
+        },
+      },
+      {
+        $group: {
+          _id: "$day",
+          total: { $sum: "$sales" },
+        },
+      },
+    ]);
+
+    res.status(200).json({
+      success: true,
+      message: "stats fetched successfully",
+      income,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: true,
+      message: err,
+    });
+  }
+});
+
 module.exports = router;
