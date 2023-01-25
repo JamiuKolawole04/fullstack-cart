@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
+import { useSelector } from "react-redux";
 
 const columns = [
   { field: "id", headerName: "ID", width: 70 },
@@ -37,6 +38,57 @@ const rows = [
 ];
 
 export const ProductList = () => {
+  const { items } = useSelector((state) => state.products);
+
+  const rows =
+    items &&
+    items.map((item, _) => {
+      return {
+        id: item._id,
+        imageUrl: item.image,
+        pName: item.name,
+        pDesc: item.desc,
+        price: item.price.toLocaleString(),
+      };
+    });
+
+  const columns = [
+    { field: "id", headerName: "ID", width: 220 },
+    {
+      field: "imageUrl",
+      headerName: "Image",
+      width: 80,
+      // params targeting the row column
+      renderCell: (params) => {
+        return (
+          <ImageContainer>
+            <img src={params.row.imageUrl} alt="" />
+          </ImageContainer>
+        );
+      },
+    },
+    { field: "pName", headerName: "Name", width: 130 },
+    {
+      field: "pDesc",
+      headerName: "Description",
+      width: 130,
+    },
+    {
+      field: "price",
+      headerName: "Price",
+      width: 130,
+    },
+    {
+      field: "fullName",
+      headerName: "Full name",
+      description: "This column has a value getter and is not sortable.",
+      sortable: false,
+      width: 160,
+      valueGetter: (params) =>
+        `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+    },
+  ];
+
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid
