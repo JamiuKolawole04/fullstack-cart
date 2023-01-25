@@ -65,3 +65,15 @@ export const getOrderStatsApi = async () => {
 
   return data;
 };
+
+export const getIcomeStatsApi = async () => {
+  const { data } = await axios({
+    method: "GET",
+    url: `/order/income/stats`,
+    headers: {
+      "x-auth-token": localStorage.getItem("token"),
+    },
+  });
+
+  return data;
+};
