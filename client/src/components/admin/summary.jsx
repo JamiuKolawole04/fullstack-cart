@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { FaBeer } from "react-icons/fa";
-import { FaUsers, FaChartBar, FaClipboard } from "react-icons";
+import { FaUsers, FaChartBar, FaClipboard } from "react-icons/fa";
 
 import { Widget } from "./summary-components/widget";
 
@@ -26,12 +25,12 @@ export const Summary = () => {
     },
     {
       icon: <FaChartBar />,
-      digits: 500,
-      isMoney: false,
+      digits: 5000,
+      isMoney: true,
       title: "Earnings",
       color: "rgb(253, 181, 40)",
       bgColor: "rgba(253, 181, 40, 0.12)",
-      percentage: 60,
+      percentage: -60,
     },
   ];
 

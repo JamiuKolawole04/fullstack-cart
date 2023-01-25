@@ -23,6 +23,19 @@ const auth = (req, res, next) => {
   }
 };
 
+const isUser = (req, res, next) => {
+  auth(req, res, () => {
+    if (req.user._id === req.params.id || req.user.isAdmin) {
+      next();
+    } else {
+      res.status(403).json({
+        success: true,
+        message: "Access deneid. Not authorized",
+      });
+    }
+  });
+};
+
 const isAdmin = (req, res, next) => {
   auth(req, res, () => {
     if (req.user.isAdmin) {
@@ -36,4 +49,4 @@ const isAdmin = (req, res, next) => {
   });
 };
 
-module.exports = { auth, isAdmin };
+module.exports = { auth, isAdmin, isUser };

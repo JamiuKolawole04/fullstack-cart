@@ -1,7 +1,35 @@
 import styled from "styled-components";
+import { Fragment } from "react";
 
-export const Widget = () => {
-  return <div>Widget</div>;
+export const Widget = ({ data }) => {
+  return (
+    <StyledWidget>
+      <Icon color={data.color} bgColor={data.bgColor}>
+        {data.icon}
+      </Icon>
+      <Text>
+        <h3>
+          {data.isMoney
+            ? "$" + data.digits?.toLocaleString()
+            : data.digits?.toLocaleString()}
+        </h3>
+        <p>{data.title}</p>
+      </Text>
+      {data.percentage < 0 ? (
+        <Fragment>
+          <Percentage isPositive={false}>
+            {Math.floor(data.percentage) + "%"}
+          </Percentage>
+        </Fragment>
+      ) : (
+        <Fragment>
+          <Percentage isPositive={true}>
+            {Math.floor(data.percentage) + "%"}
+          </Percentage>
+        </Fragment>
+      )}
+    </StyledWidget>
+  );
 };
 
 const StyledWidget = styled.div`
