@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { productsDelete } from "../../../redux/features/productSlice";
+import { EditProduct } from "../editProduct";
 
 // const columns = [
 //   { field: "id", headerName: "ID", width: 70 },
@@ -91,6 +92,7 @@ export const ProductList = () => {
         return (
           <Actions>
             <Delete onClick={() => handleDelete(params.row.id)}>Delete</Delete>
+            <EditProduct productId={params.row.id} />
             <View onClick={() => navigate(`/product/${params.row.id}`)}>
               View
             </View>

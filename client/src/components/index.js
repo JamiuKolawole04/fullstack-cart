@@ -17,3 +17,4 @@ export { Users } from "./admin/users";
 export { Product } from "./details/product";
 export { Order } from "./details/order";
 export { UserProfile } from "./details/userProfile";
+export { EditProduct } from "./admin/editProduct";
