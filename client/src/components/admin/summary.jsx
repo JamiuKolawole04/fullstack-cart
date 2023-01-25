@@ -1,9 +1,27 @@
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FaUsers, FaChartBar, FaClipboard } from "react-icons/fa";
 
 import { Widget } from "./summary-components/widget";
+import { getUserStatsApi } from "../../api";
 
 export const Summary = () => {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await getUserStatsApi();
+
+        console.log("stats", response);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   const data = [
     {
       icon: <FaUsers />,

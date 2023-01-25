@@ -41,3 +41,15 @@ export const loginUserApi = async (post) => {
 
   return data;
 };
+
+export const getUserStatsApi = async () => {
+  const { data } = await axios({
+    method: "GET",
+    url: `/user/stats`,
+    headers: {
+      "x-auth-token": localStorage.getItem("token"),
+    },
+  });
+
+  return data;
+};
