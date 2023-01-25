@@ -120,4 +120,23 @@ router.get("/week-sales", isAdmin, async (req, res) => {
   }
 });
 
+router.get("/", isAdmin, async (req, res) => {
+  const query = req.query.new;
+  try {
+    const orders = query
+      ? await Order.find().sort({ _id: -1 }).limit(4)
+      : await Order.find().sort({ _id: -1 });
+
+    res.status(200).json({
+      success: true,
+      orders,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err,
+    });
+  }
+});
+
 module.exports = router;

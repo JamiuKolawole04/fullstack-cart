@@ -5,6 +5,7 @@ import { FaUsers, FaChartBar, FaClipboard } from "react-icons/fa";
 import { Widget } from "./summary-components/widget";
 import { getOrderStatsApi, getUserStatsApi, getIcomeStatsApi } from "../../api";
 import { Chart } from "./summary-components/chart";
+import { Transactions } from "./summary-components/transaction";
 
 export const Summary = () => {
   const [users, setUsers] = useState([]);
@@ -130,7 +131,9 @@ export const Summary = () => {
         <Chart />
       </MainStats>
 
-      <SideStats></SideStats>
+      <SideStats>
+        <Transactions />
+      </SideStats>
     </StyledSummary>
   );
 };

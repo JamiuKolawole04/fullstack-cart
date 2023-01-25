@@ -89,3 +89,15 @@ export const getWeekSalesApi = async () => {
 
   return data;
 };
+
+export const getOrdersApi = async () => {
+  const { data } = await axios({
+    method: "GET",
+    url: `/order/?new=true`,
+    headers: {
+      "x-auth-token": localStorage.getItem("token"),
+    },
+  });
+
+  return data;
+};
