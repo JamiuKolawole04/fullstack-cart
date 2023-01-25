@@ -3,17 +3,54 @@ import styled from "styled-components";
 import { FaUsers, FaChartBar, FaClipboard } from "react-icons/fa";
 
 import { Widget } from "./summary-components/widget";
-import { getUserStatsApi } from "../../api";
+import { getOrderStatsApi, getUserStatsApi } from "../../api";
 
 export const Summary = () => {
   const [users, setUsers] = useState([]);
+  const [usersPerc, setUsersPerc] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [ordersPerc, setOrdersPerc] = useState([]);
+
+  const compare = (a, b) => {
+    if (a._id < b._id) return 1;
+
+    if (a._id > b._id) return -1;
+
+    return 0;
+  };
 
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await getUserStatsApi();
 
-        console.log("stats", response);
+        response?.users.sort(compare);
+        setUsers(response.users);
+        setUsersPerc(
+          (response.users[0].total -
+            response.users[0].total / response.users[0].total) *
+            100
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await getOrderStatsApi();
+
+        response?.orders.sort(compare);
+        setOrders(response?.orders);
+        setOrdersPerc(
+          (response.orders[0].total -
+            response.orders[0].total / response.orders[0].total) *
+            100
+        );
       } catch (err) {
         console.log(err);
       }
@@ -25,21 +62,21 @@ export const Summary = () => {
   const data = [
     {
       icon: <FaUsers />,
-      digits: 50,
+      digits: users[0]?.total,
       isMoney: false,
       title: "Users",
       color: "rgb(102, 108, 255)",
       bgColor: "rgba(102, 108, 255, 0.12)",
-      percentage: 30,
+      percentage: usersPerc,
     },
     {
       icon: <FaClipboard />,
-      digits: 70,
+      digits: orders[0]?.total,
       isMoney: false,
       title: "Orders",
       color: "rgb(38, 198, 249)",
       bgColor: "rgba(102, 108, 249, 0.12)",
-      percentage: 20,
+      percentage: ordersPerc,
     },
     {
       icon: <FaChartBar />,
