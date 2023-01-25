@@ -1,11 +1,15 @@
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState, Fragment } from "react";
+import { useDispatch } from "react-redux";
 
 import { getProductApi } from "../../api";
+import { addToCart } from "../../redux/features/cartSlice";
 
 export const Product = () => {
   const params = useParams();
+  const dispath = useDispatch();
+  const navigate = useNavigate();
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -14,7 +18,6 @@ export const Product = () => {
       setIsLoading(true);
       try {
         const response = await getProductApi(params.id);
-        console.log(response);
         setProduct(response.product);
       } catch (err) {
         console.log(err);
@@ -26,7 +29,10 @@ export const Product = () => {
     fetchData();
   }, [params.id]);
 
-  const handleAddToCart = () => {};
+  const handleAddToCart = (product) => {
+    dispath(addToCart(product));
+    navigate("/cart");
+  };
 
   return (
     <StyledProduct>
@@ -36,7 +42,7 @@ export const Product = () => {
         ) : (
           <Fragment>
             <ImageContainer>
-              <img src={product.img} alt="" />
+              <img src={product.image} alt="" />
             </ImageContainer>
             <ProductDetails>
               <h3>{product.name}</h3>
