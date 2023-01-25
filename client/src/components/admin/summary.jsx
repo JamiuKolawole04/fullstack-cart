@@ -6,6 +6,7 @@ import { Widget } from "./summary-components/widget";
 import { getOrderStatsApi, getUserStatsApi, getIcomeStatsApi } from "../../api";
 import { Chart } from "./summary-components/chart";
 import { Transactions } from "./summary-components/transaction";
+import { AllTimeData } from "./summary-components/allTimeData";
 
 export const Summary = () => {
   const [users, setUsers] = useState([]);
@@ -133,6 +134,7 @@ export const Summary = () => {
 
       <SideStats>
         <Transactions />
+        <AllTimeData />
       </SideStats>
     </StyledSummary>
   );
