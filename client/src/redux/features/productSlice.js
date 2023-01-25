@@ -9,6 +9,7 @@ const initialState = {
   error: null,
   createStatus: null,
   deleteStatus: null,
+  editStatus: null,
 };
 
 export const productsFecth = createAsyncThunk(
@@ -29,6 +30,24 @@ export const productsCreate = createAsyncThunk(
     try {
       const products = await createProductApi(values);
       toast.success("product created successfully", {
+        position: "top-right",
+      });
+      return products;
+    } catch (err) {
+      toast.error(err.response?.data?.message, {
+        position: "top-right",
+      });
+      return rejectWithValue("an error occured");
+    }
+  }
+);
+
+export const productsEdit = createAsyncThunk(
+  "products/productsEdit ",
+  async (values, { rejectWithValue }) => {
+    try {
+      const products = await createProductApi(values);
+      toast.success("product edited successfully", {
         position: "top-right",
       });
       return products;
@@ -90,6 +109,26 @@ const productSlice = createSlice({
     },
     [productsCreate.rejected]: (state, action) => {
       state.createStatus = "rejected";
+      state.error = action.payload;
+    },
+
+    // product edit
+    [productsEdit.pending]: (state, action) => {
+      state.editStatus = "pending";
+    },
+    [productsEdit.fulfilled]: (state, action) => {
+      state.editStatus = "success";
+      // action is returned from the requested data
+      //   console.log(action);
+      const updatedProducts = state.items.map((product) =>
+        product._id === action.payload._id ? action.payload : product
+      );
+
+      state.items = updatedProducts;
+      toast.info("Producted Edited");
+    },
+    [productsEdit.rejected]: (state, action) => {
+      state.editStatus = "rejected";
       state.error = action.payload;
     },
 

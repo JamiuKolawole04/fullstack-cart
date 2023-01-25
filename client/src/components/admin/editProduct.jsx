@@ -8,7 +8,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
 import { PrimaryButton } from "./commonStyled";
-import { productsCreate } from "../../redux/features/productSlice";
+import { productsEdit } from "../../redux/features/productSlice";
 
 export const EditProduct = ({ productId }) => {
   const [open, setOpen] = React.useState(false);
@@ -37,6 +37,7 @@ export const EditProduct = ({ productId }) => {
       reader.readAsDataURL(file);
       reader.onloadend = () => {
         setProductImg(reader.result);
+        setPreviewImg(reader.result);
       };
     } else {
       setProductImg("");
@@ -46,12 +47,15 @@ export const EditProduct = ({ productId }) => {
   const hanldeSubmit = (e) => {
     e.preventDefault();
     dispatch(
-      productsCreate({
-        name,
-        brand,
-        price,
-        desc,
+      productsEdit({
         image: productImg,
+        product: {
+          ...currentProduct,
+          name: name,
+          brand: brand,
+          price: price,
+          desc: desc,
+        },
       })
     );
   };

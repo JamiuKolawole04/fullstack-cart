@@ -80,6 +80,14 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.put("/:id", async (req, res) => {
+  if (req.body.image) {
+    const destroyImage = await cloudinary.uploader.destroy(
+      req.body.product.image.public_id
+    );
+  }
+});
+
 router.delete("/:id", async (req, res) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
