@@ -77,3 +77,15 @@ export const getIcomeStatsApi = async () => {
 
   return data;
 };
+
+export const getWeekSalesApi = async () => {
+  const { data } = await axios({
+    method: "GET",
+    url: `/order/week-sales`,
+    headers: {
+      "x-auth-token": localStorage.getItem("token"),
+    },
+  });
+
+  return data;
+};

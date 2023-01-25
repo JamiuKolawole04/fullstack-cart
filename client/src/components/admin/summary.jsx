@@ -4,6 +4,7 @@ import { FaUsers, FaChartBar, FaClipboard } from "react-icons/fa";
 
 import { Widget } from "./summary-components/widget";
 import { getOrderStatsApi, getUserStatsApi, getIcomeStatsApi } from "../../api";
+import { Chart } from "./summary-components/chart";
 
 export const Summary = () => {
   const [users, setUsers] = useState([]);
@@ -102,7 +103,7 @@ export const Summary = () => {
     },
     {
       icon: <FaChartBar />,
-      digits: income[0]?.total,
+      digits: income[0]?.total ? income[0]?.total : "",
       isMoney: true,
       title: "Earnings",
       color: "rgb(253, 181, 40)",
@@ -125,6 +126,8 @@ export const Summary = () => {
             ))}
           </WidgetWrapper>
         </Overview>
+
+        <Chart />
       </MainStats>
 
       <SideStats></SideStats>
