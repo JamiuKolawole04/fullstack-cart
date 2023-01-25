@@ -27,6 +27,9 @@ import {
   ProductList,
   Orders,
   Users,
+  Product,
+  Order,
+  UserProfile,
 } from "./components";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -100,8 +103,20 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: "login",
+    path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/product/:id",
+    element: <Product />,
+  },
+  {
+    path: "/order/:id",
+    element: <Order />,
+  },
+  {
+    path: "/user/:id",
+    element: <UserProfile />,
   },
   {
     path: "/checkout-success",

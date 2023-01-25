@@ -46,7 +46,54 @@ router.get("/", async (req, res) => {
     const products = await Product.find().sort({ createdAt: -1 });
     res.status(200).json({
       success: true,
+      nbHits: products.length,
       products,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: false,
+      err,
+    });
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "product not found.",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "product fetched successfully",
+      product,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: false,
+      err,
+    });
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const product = await Product.findByIdAndDelete(req.params.id);
+    if (!product) {
+      if (!product) {
+        res.status(404).json({
+          success: false,
+          message: "product not found.",
+        });
+      }
+    }
+    res.status(200).json({
+      success: true,
+      message: "product deleted",
     });
   } catch (err) {
     res.status(500).json({

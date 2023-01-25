@@ -22,6 +22,15 @@ export const createProductApi = async (post) => {
   return data;
 };
 
+export const getProductApi = async (id) => {
+  const { data } = await axios({
+    method: "GET",
+    url: `/products/${id}`,
+  });
+
+  return data;
+};
+
 export const registerUserApi = async (post) => {
   const { data } = await axios({
     method: "POST",
