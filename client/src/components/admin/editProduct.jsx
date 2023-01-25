@@ -14,7 +14,7 @@ export const EditProduct = ({ productId }) => {
   const [open, setOpen] = React.useState(false);
 
   const dispatch = useDispatch();
-  const { items } = useSelector((state) => state.products);
+  const { items, editStatus } = useSelector((state) => state.products);
 
   const [productImg, setProductImg] = React.useState("");
   const [name, setName] = React.useState("");
@@ -48,7 +48,7 @@ export const EditProduct = ({ productId }) => {
     e.preventDefault();
     dispatch(
       productsEdit({
-        image: productImg,
+        productImg,
         product: {
           ...currentProduct,
           name: name,
@@ -98,7 +98,6 @@ export const EditProduct = ({ productId }) => {
                 id=""
                 accept="image/"
                 onChange={handleProductImageUpload}
-                required
               />
 
               <select
@@ -144,7 +143,9 @@ export const EditProduct = ({ productId }) => {
                 value={desc}
                 onChange={({ target }) => setDesc(target.value)}
               />
-              <PrimaryButton type="submit">Submit</PrimaryButton>
+              <PrimaryButton type="submit">
+                {editStatus === "pending" ? "Submitting" : "Submit"}
+              </PrimaryButton>
             </StyledForm>
             <ImagePreview>
               {previewImg ? (

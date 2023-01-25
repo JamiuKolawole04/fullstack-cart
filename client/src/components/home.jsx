@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useGetAllProductsQuery } from "../redux/features/productApi";
 import { addToCart } from "../redux/features/cartSlice";
@@ -36,7 +36,9 @@ export const Home = () => {
                   className="product d-flex column justify-content-between"
                 >
                   <h3>{product.name}</h3>
-                  <img src={product.image} alt="" />
+                  <Link to={`/product/${product._id}`}>
+                    <img src={product.image} alt="" />
+                  </Link>
 
                   <div className="details d-flex align-item-center justify-content-between">
                     <span>{product.desc}</span>

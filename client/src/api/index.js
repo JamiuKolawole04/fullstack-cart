@@ -22,6 +22,19 @@ export const createProductApi = async (post) => {
   return data;
 };
 
+export const EditProductApi = async (post) => {
+  const { data } = await axios({
+    method: "PUT",
+    url: `products/${post.product._id}`,
+    data: post,
+    headers: {
+      "x-auth-token": localStorage.getItem("token"),
+    },
+  });
+
+  return data;
+};
+
 export const deletProductApi = async (id) => {
   const { data } = await axios({
     method: "DELETE",

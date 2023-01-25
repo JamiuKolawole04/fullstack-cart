@@ -81,10 +81,66 @@ router.get("/:id", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  if (req.body.image) {
-    const destroyImage = await cloudinary.uploader.destroy(
-      req.body.product.image.public_id
-    );
+  if (req.body.productImg) {
+    try {
+      const destroyResponse = await cloudinary.uploader.destroy(
+        req.body.product.image.public_id
+      );
+
+      if (destroyResponse) {
+        const uploadResponse = await cloudinary.uploader.upload(
+          req.body.productImg,
+          {
+            upload_preset: "onlineShop",
+          }
+        );
+
+        if (uploadResponse) {
+          const updatedProduct = await Product.findByIdAndUpdate(
+            req.params.id,
+            {
+              $set: {
+                ...req.body.product,
+                image: uploadResponse,
+              },
+            },
+            { new: true }
+          );
+
+          res.status(200).json({
+            success: true,
+            message: "product updated",
+            updatedProduct,
+          });
+        }
+      }
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err,
+      });
+    }
+  } else {
+    try {
+      const updatedProduct = await Product.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: req.body.product,
+        },
+        { new: true }
+      );
+
+      res.status(200).json({
+        success: true,
+        message: "product updated",
+        updatedProduct,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err,
+      });
+    }
   }
 });
 

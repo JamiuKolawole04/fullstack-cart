@@ -1,7 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
-import { getProductsApi, createProductApi, deletProductApi } from "../../api";
+import {
+  getProductsApi,
+  createProductApi,
+  deletProductApi,
+  EditProductApi,
+} from "../../api";
 
 const initialState = {
   items: [],
@@ -46,7 +51,7 @@ export const productsEdit = createAsyncThunk(
   "products/productsEdit ",
   async (values, { rejectWithValue }) => {
     try {
-      const products = await createProductApi(values);
+      const products = await EditProductApi(values);
       toast.success("product edited successfully", {
         position: "top-right",
       });
@@ -125,7 +130,6 @@ const productSlice = createSlice({
       );
 
       state.items = updatedProducts;
-      toast.info("Producted Edited");
     },
     [productsEdit.rejected]: (state, action) => {
       state.editStatus = "rejected";
