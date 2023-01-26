@@ -5,14 +5,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 
-import { productsDelete } from "../../../redux/features/productSlice";
-import { ordersFetch } from "../../../redux/features/orderSlice";
+import { ordersFetch, ordersEdit } from "../../../redux/features/orderSlice";
 
 export const OrdersList = () => {
   const { list } = useSelector((state) => state.orders);
   console.log(list);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     dispatch(ordersFetch());
@@ -72,17 +71,37 @@ export const OrdersList = () => {
       renderCell: (params) => {
         return (
           <Actions>
-            <DispatchBtn>Dispatch</DispatchBtn>
-            <DeliveryBtn>Deliver</DeliveryBtn>
-            <View>View</View>
+            <DispatchBtn onClick={() => handleOrderDispatch(params.row.id)}>
+              Dispatch
+            </DispatchBtn>
+            <DeliveryBtn onClick={() => handleOrderDeliver(params.row.id)}>
+              Deliver
+            </DeliveryBtn>
+            <View onClick={() => navigate(`/order/${params.row.id}`)}>
+              View
+            </View>
           </Actions>
         );
       },
     },
   ];
 
-  const handleDelete = (id) => {
-    dispatch(productsDelete(id));
+  const handleOrderDeliver = (id) => {
+    dispatch(
+      ordersEdit({
+        id,
+        delivery_status: "delivered",
+      })
+    );
+  };
+
+  const handleOrderDispatch = (id) => {
+    dispatch(
+      ordersEdit({
+        id,
+        delivery_status: "dispatched",
+      })
+    );
   };
 
   return (

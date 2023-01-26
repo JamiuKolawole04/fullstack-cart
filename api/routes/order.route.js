@@ -139,7 +139,7 @@ router.get("/", isAdmin, async (req, res) => {
   }
 });
 
-router.put(":id", async (req, res) => {
+router.put("/:id", isAdmin, async (req, res) => {
   try {
     const updatedOrder = await Order.findByIdAndUpdate(
       req.params.id,
@@ -151,11 +151,34 @@ router.put(":id", async (req, res) => {
 
     res.status(200).json({
       success: true,
+      message: "order updated",
       updatedOrder,
     });
   } catch (err) {
     res.status(500).json({
       success: true,
+      message: err,
+    });
+  }
+});
+
+router.get("/:id", isAdmin, async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    if (!order) {
+      return res.status(400).json({
+        success: false,
+        message: "order not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      order,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
       message: err,
     });
   }
