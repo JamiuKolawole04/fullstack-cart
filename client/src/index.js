@@ -30,7 +30,9 @@ import {
   Product,
   Order,
   UserProfile,
+  OrdersList,
 } from "./components";
+import orderReducer from "./redux/features/orderSlice";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const store = configureStore({
@@ -38,6 +40,7 @@ const store = configureStore({
     products: productReducer,
     cart: cartReducer,
     auth: authReducer,
+    orders: orderReducer,
     [productsApi.reducerPath]: productsApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
@@ -84,9 +87,13 @@ const router = createBrowserRouter([
         path: "summary",
         element: <Summary />,
       },
+      // {
+      //   path: "orders",
+      //   element: <Orders />,
+      // },
       {
         path: "orders",
-        element: <Orders />,
+        element: <OrdersList />,
       },
       {
         path: "users",
