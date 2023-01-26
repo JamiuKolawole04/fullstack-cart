@@ -43,4 +43,45 @@ router.get("/stats", isAdmin, async (req, res) => {
   }
 });
 
+router.get("/", async (req, res) => {
+  try {
+    const users = await User.find();
+
+    res.status(200).json({
+      success: true,
+      nbHits: users.length,
+      message: "users fetched successfully",
+      users,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      err,
+    });
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "could not found this user",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "user deleted",
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      err,
+    });
+  }
+});
+
 module.exports = router;
