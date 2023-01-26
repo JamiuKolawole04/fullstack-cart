@@ -33,6 +33,7 @@ import {
   OrdersList,
 } from "./components";
 import orderReducer from "./redux/features/orderSlice";
+import userReducer from "./redux/features/userSlice";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const store = configureStore({
@@ -40,6 +41,7 @@ const store = configureStore({
     products: productReducer,
     cart: cartReducer,
     auth: authReducer,
+    users: userReducer,
     orders: orderReducer,
     [productsApi.reducerPath]: productsApi.reducer,
   },

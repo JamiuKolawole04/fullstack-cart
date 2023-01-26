@@ -160,3 +160,27 @@ export const editOrdersApi = async (values, newOrder) => {
 
   return data;
 };
+
+export const getUsersApi = async () => {
+  const { data } = await axios({
+    method: "GET",
+    url: `/user`,
+    headers: {
+      "x-auth-token": localStorage.getItem("token"),
+    },
+  });
+
+  return data;
+};
+
+export const deleteUsersApi = async (id) => {
+  const { data } = await axios({
+    method: "DELETE",
+    url: `/user/${id}`,
+    headers: {
+      "x-auth-token": localStorage.getItem("token"),
+    },
+  });
+
+  return data;
+};

@@ -43,7 +43,7 @@ router.get("/stats", isAdmin, async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
+router.get("/", isAdmin, async (req, res) => {
   try {
     const users = await User.find();
 
@@ -61,7 +61,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", isAdmin, async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
 

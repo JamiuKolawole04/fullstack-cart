@@ -1,5 +1,5 @@
-import React from "react";
+import { UsersList } from "./list/usersList";
 
 export const Users = () => {
-  return <div>Users</div>;
+  return <UsersList />;
 };
