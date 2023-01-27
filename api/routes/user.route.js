@@ -75,6 +75,7 @@ router.delete("/:id", isAdmin, async (req, res) => {
     res.status(200).json({
       success: true,
       message: "user deleted",
+      user,
     });
   } catch (err) {
     res.status(500).json({

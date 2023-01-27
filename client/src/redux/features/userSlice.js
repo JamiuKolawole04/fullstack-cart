@@ -23,7 +23,7 @@ export const userDelete = createAsyncThunk("users/userDelete", async (id) => {
   try {
     const response = await deleteUsersApi(id);
 
-    return response.message;
+    return response.user;
   } catch (err) {
     console.log(err);
     toast.error(err.response.data, {
@@ -53,7 +53,6 @@ const userSlice = createSlice({
       state.deleteStatus = "pending";
     },
     [userDelete.fulfilled]: (state, action) => {
-      //   state.deleteStatus = "success";
       const newUser = state.user.filter(
         (item) => item._id !== action.payload._id
       );
@@ -63,21 +62,6 @@ const userSlice = createSlice({
       toast.error("user deleted", {
         position: "bottom-left",
       });
-
-      //   state.user = newUser;
-      //   toast.error("user deleted", {
-      //     position: "bottom-left",
-      //   });
-      //   return {
-      //     ...state,
-      //     user: [...state.user].filter((item) => item._id !== action.payload._id),
-      //     deleteStatus: "success",
-      //   };
-
-      //   return {
-      //     ...state,
-      //     user: state.user.filter((item) => item._id !== action.payload._id),
-      //   };
     },
     [userDelete.rejected]: (state, action) => {
       state.deleteStatus = "rejected";

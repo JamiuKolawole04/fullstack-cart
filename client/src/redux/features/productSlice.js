@@ -69,11 +69,11 @@ export const productsDelete = createAsyncThunk(
   "products/productsDelete",
   async (id, { rejectWithValue }) => {
     try {
-      const products = await deletProductApi(id);
+      const response = await deletProductApi(id);
       // toast.success("product created successfully", {
       //   position: "top-right",
       // });
-      return products;
+      return response.product;
     } catch (err) {
       toast.error(err.response?.data?.message, {
         position: "top-right",
