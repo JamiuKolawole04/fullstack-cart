@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const moment = require("moment");
+const bcrypt = require("bcrypt");
 const router = Router();
 
 const { User } = require("../models/user.model");
@@ -81,6 +82,55 @@ router.get("/:id", isAdmin, async (req, res) => {
     res.status(500).json({
       success: false,
       err,
+    });
+  }
+});
+
+//UPDATE USER
+router.put("/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!(user.email === req.body.email)) {
+      const emailInUse = await User.findOne({ email: req.body.email });
+      if (emailInUse) {
+        res.status(409).json({
+          success: false,
+          message: "email already in use.",
+        });
+      }
+    }
+
+    if (req.body.password && user) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+      user.password = hashedPassword;
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        isAdmin: req.body.isAdmin,
+      },
+      { new: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      user: {
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err,
     });
   }
 });

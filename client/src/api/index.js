@@ -173,6 +173,18 @@ export const getUsersApi = async () => {
   return data;
 };
 
+export const getUserApi = async (id) => {
+  const { data } = await axios({
+    method: "GET",
+    url: `/user/${id}`,
+    headers: {
+      "x-auth-token": localStorage.getItem("token"),
+    },
+  });
+
+  return data;
+};
+
 export const deleteUsersApi = async (id) => {
   const { data } = await axios({
     method: "DELETE",
