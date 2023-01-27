@@ -61,6 +61,30 @@ router.get("/", isAdmin, async (req, res) => {
   }
 });
 
+// GET A USER
+router.get("/:id", isAdmin, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "user does not exist",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "user fetched successfully",
+      user,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      err,
+    });
+  }
+});
+
 router.delete("/:id", isAdmin, async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
