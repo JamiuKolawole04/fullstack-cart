@@ -33,7 +33,7 @@ export const OrdersList = () => {
     { field: "id", headerName: "ID", width: 220 },
     {
       field: "cName",
-      headerName: "Namw",
+      headerName: "Name",
       width: 120,
       // params targeting the row column
     },
