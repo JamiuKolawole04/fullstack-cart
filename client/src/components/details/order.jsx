@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { getOrderApi } from "../../api";
+import { Nabvar } from "../nabvar";
 
 export const Order = () => {
   const params = useParams();
@@ -27,52 +28,55 @@ export const Order = () => {
   }, [params.id]);
 
   return (
-    <StyledOrder>
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <Fragment>
-          <OrdersContainer>
-            <h2>Order Details</h2>
+    <Fragment>
+      <Nabvar />
+      <StyledOrder>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <Fragment>
+            <OrdersContainer>
+              <h2>Order Details</h2>
 
-            <p>
-              {order.delivery_status === "pending" ? (
-                <Pending>Pending</Pending>
-              ) : order.delivery_status === "dispatched" ? (
-                <Dispatched>Dispatched</Dispatched>
-              ) : order.delivery_status === "delivered" ? (
-                <Delivered>Delivered</Delivered>
-              ) : (
-                "error"
-              )}
-            </p>
+              <p>
+                {order.delivery_status === "pending" ? (
+                  <Pending>Pending</Pending>
+                ) : order.delivery_status === "dispatched" ? (
+                  <Dispatched>Dispatched</Dispatched>
+                ) : order.delivery_status === "delivered" ? (
+                  <Delivered>Delivered</Delivered>
+                ) : (
+                  "error"
+                )}
+              </p>
 
-            <h3>Ordered Products</h3>
-            <Items>
-              {order?.products?.map((product, _i) => (
-                <Item key={_i}>
-                  <span>{product.desc}</span>
-                  <span>{product.cartQuantity}</span>
-                  <span>{"$" + product.price.toLocaleString()}</span>
-                </Item>
-              ))}
-            </Items>
+              <h3>Ordered Products</h3>
+              <Items>
+                {order?.products?.map((product, _i) => (
+                  <Item key={_i}>
+                    <span>{product.desc}</span>
+                    <span>{product.cartQuantity}</span>
+                    <span>{"$" + product.price.toLocaleString()}</span>
+                  </Item>
+                ))}
+              </Items>
 
-            <div>
-              <h3>Total price</h3>
-              <p>{"$" + (order.total / 100).toLocaleString()}</p>
-            </div>
+              <div>
+                <h3>Total price</h3>
+                <p>{"$" + (order.total / 100).toLocaleString()}</p>
+              </div>
 
-            <div>
-              <h3>Shipping Details</h3>
-              <p>Customer: {order.shipping?.name}</p>
-              <p>City: {order.shipping?.address?.city}</p>
-              <p>Email: {order?.shippingCustomerDetails?.email}</p>
-            </div>
-          </OrdersContainer>
-        </Fragment>
-      )}
-    </StyledOrder>
+              <div>
+                <h3>Shipping Details</h3>
+                <p>Customer: {order.shipping?.name}</p>
+                <p>City: {order.shipping?.address?.city}</p>
+                <p>Email: {order?.shippingCustomerDetails?.email}</p>
+              </div>
+            </OrdersContainer>
+          </Fragment>
+        )}
+      </StyledOrder>
+    </Fragment>
   );
 };
 

@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 
 import { getProductApi } from "../../api";
 import { addToCart } from "../../redux/features/cartSlice";
+import { Nabvar } from "../nabvar";
 
 export const Product = () => {
   const params = useParams();
@@ -35,38 +36,41 @@ export const Product = () => {
   };
 
   return (
-    <StyledProduct>
-      <ProductContainer>
-        {isLoading ? (
-          <p>Loading...</p>
-        ) : (
-          <Fragment>
-            <ImageContainer>
-              <img src={product.image} alt="" />
-            </ImageContainer>
-            <ProductDetails>
-              <h3>{product.name}</h3>
-              <p>
-                <span>Brand:</span>
-                {product.brand}
-              </p>
-              <p>
-                <span>Description:</span>
-                {product.desc}
-              </p>
-              <Price>${product.price?.toLocaleString()}</Price>
+    <Fragment>
+      <Nabvar />
+      <StyledProduct>
+        <ProductContainer>
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : (
+            <Fragment>
+              <ImageContainer>
+                <img src={product.image} alt="" />
+              </ImageContainer>
+              <ProductDetails>
+                <h3>{product.name}</h3>
+                <p>
+                  <span>Brand:</span>
+                  {product.brand}
+                </p>
+                <p>
+                  <span>Description:</span>
+                  {product.desc}
+                </p>
+                <Price>${product.price?.toLocaleString()}</Price>
 
-              <button
-                className="product-add-to-cart"
-                onClick={() => handleAddToCart(product)}
-              >
-                Add To Cart
-              </button>
-            </ProductDetails>
-          </Fragment>
-        )}
-      </ProductContainer>
-    </StyledProduct>
+                <button
+                  className="product-add-to-cart"
+                  onClick={() => handleAddToCart(product)}
+                >
+                  Add To Cart
+                </button>
+              </ProductDetails>
+            </Fragment>
+          )}
+        </ProductContainer>
+      </StyledProduct>
+    </Fragment>
   );
 };
 

@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
-import { getUserApi } from "../../api";
+import { getUserApi, updateUserApi } from "../../api";
+import { Nabvar } from "../../components";
 
 export const UserProfile = () => {
   const [user, setUser] = useState({
@@ -35,61 +37,77 @@ export const UserProfile = () => {
     fetchUser();
   }, [params.id]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setUpdating(true);
+
+    try {
+      const response = await updateUserApi(params.id, user);
+      console.log(response);
+
+      setUser({ ...response.user, password: "" });
+      toast.success("Profile updated...");
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setUpdating(false);
+    }
   };
 
   return (
-    <StyledProfile>
-      <ProfileContainer>
-        {isLoading ? (
-          <p>Loading...</p>
-        ) : (
-          <form onSubmit={handleSubmit}>
-            <h3>User profile</h3>
-            {user.isAdmin ? (
-              <Admin>Admin</Admin>
-            ) : (
-              <Customer>Customer</Customer>
-            )}
-            <label htmlFor="name">Name:</label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              value={user.name}
-              onChange={({ target }) =>
-                setUser({ ...user, name: target.value })
-              }
-            />
+    <Fragment>
+      <Nabvar />
+      <StyledProfile>
+        <ProfileContainer>
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : (
+            <form onSubmit={handleSubmit}>
+              <h3>User profile</h3>
+              {user.isAdmin ? (
+                <Admin>Admin</Admin>
+              ) : (
+                <Customer>Customer</Customer>
+              )}
+              <label htmlFor="name">Name:</label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                value={user.name}
+                onChange={({ target }) =>
+                  setUser({ ...user, name: target.value })
+                }
+              />
 
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              value={user.email}
-              onChange={({ target }) =>
-                setUser({ ...user, email: target.value })
-              }
-            />
+              <label htmlFor="email">Email:</label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                value={user.email}
+                onChange={({ target }) =>
+                  setUser({ ...user, email: target.value })
+                }
+              />
 
-            <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              value={user.password}
-              onChange={({ target }) =>
-                setUser({ ...user, password: target.value })
-              }
-            />
+              <label htmlFor="password">Password:</label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                value={user.password}
+                onChange={({ target }) =>
+                  setUser({ ...user, password: target.value })
+                }
+              />
 
-            <button>{updating ? "updating" : "Update Profile"}</button>
-          </form>
-        )}
-      </ProfileContainer>
-    </StyledProfile>
+              <button>{updating ? "updating" : "Update Profile"}</button>
+            </form>
+          )}
+        </ProfileContainer>
+      </StyledProfile>
+    </Fragment>
   );
 };
 

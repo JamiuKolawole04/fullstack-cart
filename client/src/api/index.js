@@ -185,6 +185,19 @@ export const getUserApi = async (id) => {
   return data;
 };
 
+export const updateUserApi = async (id, newUser) => {
+  const { data } = await axios({
+    method: "PUT",
+    url: `/user/${id}`,
+    data: newUser,
+    headers: {
+      "x-auth-token": localStorage.getItem("token"),
+    },
+  });
+
+  return data;
+};
+
 export const deleteUsersApi = async (id) => {
   const { data } = await axios({
     method: "DELETE",
